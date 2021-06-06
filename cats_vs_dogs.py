@@ -31,6 +31,7 @@ model.add(layers.MaxPool2D((2,2)))
 model.add(layers.Conv2D(128, (3,3), activation='relu'))
 model.add(layers.MaxPooling2D((2,2)))
 
+model.add(layers.Dropout(0.5))
 model.add(layers.Flatten())
 model.add(layers.Dense(512, activation='relu'))
 model.add(layers.Dense(1, activation='sigmoid'))
@@ -42,7 +43,15 @@ model.compile(loss='binary_crossentropy', optimizer=optimizers.RMSprop(learning_
 
 from keras.preprocessing.image import ImageDataGenerator
 
-train_data = ImageDataGenerator(rescale=1./255)
+train_data = ImageDataGenerator(
+    rotation_range=40,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True,
+    fill_mode='nearest',
+    rescale=1./255)
 valid_data = ImageDataGenerator(rescale=1./255)
 
 
